@@ -18,17 +18,17 @@ public class LeerFichero{
 	}
 	public String urlS(int discoEscogido){//Recibe numero de disco seleccionado por jugador y Devuelve la ruta del archivo
 		if(discoEscogido==3)
-			return "ruta"+"data3.th";
+			return ruta+"//data3.th";
 		else if(discoEscogido==4)
-			return "ruta"+"data4.th";
+			return ruta+"//data4.th";
 		else if(discoEscogido==5)
-			return "ruta"+"data5.th";
+			return ruta+"//data5.th";
 		else if(discoEscogido==6)
-			return "ruta"+"data6.th";
+			return ruta+"//data6.th";
 		else if(discoEscogido==7)
-			return "ruta"+"data7.th";
+			return ruta+"//data7.th";
 		else if(discoEscogido==8)
-			return "ruta"+"data8.th";
+			return ruta+"//data8.th";
 		return null;		
 	}
 	public void cargarFichero(){
@@ -62,8 +62,8 @@ public class LeerFichero{
 		         System.out.println(llave);
 		         treeMap.put(llave,cadenaLlave);
 			            
-					System.out.println(linea);
-			        System.out.println("a "+ numeroFichero);
+					//System.out.println(linea);
+			        //System.out.println("Nombre de fichero  data"+ numeroFichero+"txt");
 			        }
 		}
 		catch(Exception e){

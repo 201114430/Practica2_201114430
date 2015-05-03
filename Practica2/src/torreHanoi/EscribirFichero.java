@@ -13,17 +13,17 @@ public class EscribirFichero {
 	}
 	public String urlS(int discoEscogido){//escoge ruta segun discos seleccionados
 		if(discoEscogido==3)
-			return "ruta"+"data3.txt";
+			return ruta+"//data3.th";
 		else if(discoEscogido==4)
-			return "ruta"+"data4.txt";
+			return ruta+"//data4.th";
 		else if(discoEscogido==5)
-			return "ruta"+"data5.txt";
+			return ruta+"//data5.th";
 		else if(discoEscogido==6)
-			return "ruta"+"data6.txt";
+			return ruta+"//data6.th";
 		else if(discoEscogido==7)
-			return "ruta"+"data7.txt";
+			return ruta+"//data7.th";
 		else if(discoEscogido==8)
-			return "ruta"+"data8.txt";
+			return ruta+"//data8.th";
 		return null;		
 	}
 	public void escribeDato(String nombreJugador,int discoEscogido,int movimientoRealizado,String tiempo){
@@ -32,7 +32,7 @@ public class EscribirFichero {
 		try
 		{
 			BufferedWriter ficheroSalida = new BufferedWriter(new FileWriter(new File(urlS(discoEscogido)),true));
-			ficheroSalida.write(nombreJugador + "," + disc + "," + movimientoRealizado + "/" + tiempo);
+			ficheroSalida.write(nombreJugador + "," + disc + "," + movimientoRealizado + "," + tiempo + "/" + tiempo);
             ficheroSalida.newLine();
             ficheroSalida.close();
         }

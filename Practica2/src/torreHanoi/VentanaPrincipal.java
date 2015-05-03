@@ -8,10 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Scanner;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,6 +24,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
 
 public class VentanaPrincipal extends JFrame implements MouseListener{
 	VentanaUsuario ventanausuario = new VentanaUsuario();
@@ -43,6 +48,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 	boolean juegopausado;
 	public String tiempo;
 	public String nomJuga;
+	public Clip sondisc;
  	public VentanaPrincipal(){//constructor de la clase JFrame 		
  		configuracionVentana();
 		barraMenu();
@@ -587,8 +593,8 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			if(torre2[3] == 8 || torre3[3] == 8){
 				modificaEtiqueta(9);
 				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
-				this.juegopausado = false;
-				pausa.setEnabled(false);
+				this.juegopausado = false;///estetica
+				pausa.setEnabled(false);///estetica
 			}
 			break;
 		case 4:
@@ -674,7 +680,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
         	iniciarCronos();
         	this.nomJuga = ventanausuario.nombre;
     		nombreJugador.setText(nomJuga);
-        	System.out.println("nombre del jugador "+nomJuga);
+        	//System.out.println("nombre del jugador "+nomJuga);
         	nombreJugador.setText(nomJuga);
         	ventanausuario.setVisible(false);
         	this.juegopausado = true;
@@ -1448,80 +1454,149 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if (e.getSource() == torre3){
-			barraEstado.setText("Torre 1");
-		}
 		  if (e.getSource() == disco1){
 			  disco1.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[1]))));
+			  if(torre1[1] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco2){
 			  disco2.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[2]))));
+			  if(torre1[2] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco3){
 			  disco3.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[3]))));
+			  if(torre1[3] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco4){
 			  disco4.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[4]))));
+			  if(torre1[4] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco5){
 			  disco5.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[5]))));
+			  if(torre1[5] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco6){
 			  disco6.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[6]))));
+			  if(torre1[6] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco7){
 			  disco7.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[7]))));
+			  if(torre1[7] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco8){
 			  disco8.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[8]))));
+			  if(torre1[8] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco9){
 			  disco9.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[1]))));
+			  if(torre2[1] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco10){
 			  disco10.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[2]))));
+			  if(torre2[2] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco11){
 			  disco11.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[3]))));
+			  if(torre2[3] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco12){
 			  disco12.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[4]))));
+			  if(torre2[4] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco13){
 			  disco13.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[5]))));
+			  if(torre2[5] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco14){
 			  disco14.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[6]))));
+			  if(torre2[6] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco15){
 			  disco15.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[7]))));
+			  if(torre2[7] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco16){
 			  disco16.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre2[8]))));
+			  if(torre2[8] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco17){
 			  disco17.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[1]))));
+			  if(torre3[1] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco18){
 			  disco18.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[2]))));
+			  if(torre3[2] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco19){
 			  disco19.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[3]))));
+			  if(torre3[3] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco20){
 			  disco20.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[4]))));
+			  if(torre3[4] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco21){
 			  disco21.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[5]))));
+			  if(torre3[5] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco22){
 			  disco22.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[6]))));
+			  if(torre3[6] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco23){
 			  disco23.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[7]))));
+			  if(torre3[7] != 0){
+				  efectoSonido();
+			  }
 			  }
 		  if (e.getSource() == disco24){
 			  disco24.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre3[8]))));
+			  if(torre3[8] != 0){
+				  efectoSonido();
+			  }
 			  }
 	}
 	@Override
@@ -1703,6 +1778,18 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
         hilo1.stop();
     }
 ///////////////FIN DEL CRONOMETRO HILO Y METODO /////////////////////////
+    
+    ///////////////PRUEBA DE SONIDO //////////////
+    public void efectoSonido(){
+        try{
+        	Clip sondisc=AudioSystem.getClip();
+        	sondisc.open(AudioSystem.getAudioInputStream(new File("sdisc1.wav")));
+           sondisc.start();
+        }catch(Exception ex){
+     	   System.err.println( ex.getMessage() );
+         }
+     }
+    ////////////////FIN PRUEBA DE SONIDO//////////
 	public static void main(String[] args){
 		VentanaPrincipal ventanaprincipal = new VentanaPrincipal();
 	}

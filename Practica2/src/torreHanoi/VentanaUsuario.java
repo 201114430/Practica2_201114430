@@ -1,4 +1,13 @@
 package torreHanoi;
+
+import java.io.*;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Iterator;
+
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -22,22 +31,30 @@ public class VentanaUsuario extends JFrame implements MouseListener {
 	public String nombre;
 	public javax.swing.JTable tabla;
 	public String[] lista0 = {"Nombre", "Disco", "Movimientos", "Tiempo"};
-	public String[] lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10;
+	public String[] lista1 = {"","","",""};
+	public String[] lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10;
 	public String[][] dato = {lista0,lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10};
+	public int numeroFichero;
+	//String urlW = "C:\\Users\\Juan JP\\OneDrive\\Dropbox\\Proyecto de IPC1\\Eclipse\\InterfazGrafica\\bin\\Datos\\data.th";
+	//String urlU = "/home/juandelcid/Escritorio/data.th";
+	public final String ruta = System.getProperties().getProperty("user.dir");
+	public String nombreJugador,disc,tiempo;
 
  	public VentanaUsuario() {
  		llenaLista();
  		configuracionVentana();
 		iniciaComponente();
+		generaRecord();
 	}
 	public void configuracionVentana(){
 		setLayout(null);
-		//setVisible(false); //comentar cuando se integre con la ventanaprincipal
+		//setVisible(false); //comentar cuando la integre con la ventanaprincipal
 		setSize(650, 400);
 		setTitle("Jugador");
 		setResizable(true);
 		//setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //activa cuando se integre con la ventana principal
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// desactiva cuando se integre con la ventana principal
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// desactiva cuando se integre con la ventana principal
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		
@@ -98,19 +115,132 @@ public class VentanaUsuario extends JFrame implements MouseListener {
 
 
 	}
-	public void generaRecord(String[] lista1,String[] lista2,String[] lista3,String[] lista4,String[] lista5,String[] lista6,String[] lista7,String[] lista8,String[] lista9,String[] lista10){
+	public void generaRecord(){//String[] lista1,String[] lista2,String[] lista3,String[] lista4,String[] lista5,String[] lista6,String[] lista7,String[] lista8,String[] lista9,String[] lista10){
 	
-		String[][] dato = {lista0,lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10};
+		String[][] dato = {lista0,lista1};//,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10};
 		//////////////////crea JTable/////////////
 		tabla = new JTable(dato,lista0);
 		tabla.setBounds(90,150,450,180);
 		add(tabla);	
-	}
+	}			
+	public String urlS(int numeroFichero){//Recibe numero de disco seleccionado por jugador y Devuelve la ruta del archivo
+			this.numeroFichero = numeroFichero;
+			if(numeroFichero==3)
+				return ruta+"//data3.th";
+			else if(numeroFichero==4)
+				return ruta+"//data4.th";
+			else if(numeroFichero==5)
+				return ruta+"//data5.th";
+			else if(numeroFichero==6)
+				return ruta+"//data6.th";
+			else if(numeroFichero==7)
+				return ruta+"//data7.th";
+			else if(numeroFichero==8)
+				return ruta+"//data8.th";
+			return null;		
+		}
+	public void cargarFichero(int numeroFichero){
+			this.numeroFichero = numeroFichero ;
+			
+			//System.out.println("********* TreeMap *********");
+			Map<Integer, String> treeMap = new TreeMap<Integer, String>();
+			String cadenaLlave = null;
+			String parametro = null;
+			int llave = 0;
+			////////////////////
+			File archivo = null;
+			FileReader fr = null;
+			BufferedReader br = null;
+			try {
+			         // Abre fichero y lo carga en bufferedreader
+			         archivo = new File (urlS(numeroFichero));
+			         fr = new FileReader (archivo);
+			         br = new BufferedReader(fr);
+			 
+			         // Lectura del fichero
+			         String linea;
+			         while((linea=br.readLine())!=null){
+			        //////////////////////////tree map//////////
+			        	 System.out.println("linea del documento: "+linea);
+			        	 parametro = linea;//linea toma lo que lee y lo graba en parametro
+			         String[] argtext = parametro.split("/");
+			         cadenaLlave = argtext[0];
+			         String[] tiempo = argtext[1].split(":");
+			         llave = Integer.parseInt(tiempo[0]+tiempo[1]);
+			         //System.out.println(llave);
+			         treeMap.put(llave,cadenaLlave);
+				            
+						//System.out.println(linea);
+				        //System.out.println("Nombre de fichero  data"+ numeroFichero+"txt");
+				        }
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				}
+			finally{
+			         // Se cierra el fichero, para asegurar que se cierra todo.
+			         try{                    
+			            if( null != fr ){   
+			               fr.close();     
+			            }                  
+			         }catch (Exception e2){ 
+			            e2.printStackTrace();
+			         	}
+			}
+			///////////////////////inicia carga de TREE MAP A LA JTABLE
+			//Los datos almacenados en tree Map los guardo en fichero th
+			String lallave = null;
+			String datoLeido = null;
+			
+			Iterator<Integer> it;
+			it = treeMap.keySet().iterator();
+	        DefaultListModel modeloLista = new DefaultListModel();
+	        DefaultTableModel modeloTabla = new DefaultTableModel();
+	        modeloTabla.addColumn("Nombre");
+	        modeloTabla.addColumn("Numero de Discos");
+	        modeloTabla.addColumn("Movimiento");
+	        modeloTabla.addColumn("Tiempo");
+	        modeloTabla.addRow(lista0);
+			while(it.hasNext()){
+				Integer key = it.next();
+				lallave = Integer.toString(key);
+				System.out.println(treeMap.get(key) + "||" + key );
+				datoLeido = treeMap.get(key);
+				lista1 = datoLeido.split(",");
+				//lista1[3] = lallave;
+				//modeloLista.addElement(treeMap.get(key));
+	            modeloTabla.addRow(lista1);
+	            //modeloTabla.addRow(new String[]{lallave});
+				
+				//System.out.println("Grabando fichero de texto a disco...");
+	            //////////////////inicia escritura de treemap en archivo///////////
+			/*try{
+				BufferedWriter ficheroSalida = new BufferedWriter(
+	            new FileWriter(new File(urlS(numeroFichero)),true));
+				ficheroSalida.write(treeMap.get(key) + "/" + key);
+	            ficheroSalida.newLine();
+	            ficheroSalida.close();
+	        }
+	        catch (IOException errorDeFichero){
+	            System.out.println(
+	            		"No se guardaron los datos: " +
+	            errorDeFichero.getMessage() );
+	        }*/
+				//////////////finaliza escritura de treemap en archivo///////////
+			tabla.setModel(modeloTabla);
+			}	
+		}		
 	@Override
 	public void mousePressed(MouseEvent even) {
 		if (even.getSource()==guardar) {
 			nombre = cajanombre.getText();
 			setVisible(false);
+		}
+		if(even.getSource()==records){
+			String selecItem=(String)selecDiscRecord.getSelectedItem();
+	        this.numeroFichero=Integer.parseInt(selecItem);
+			//LeerFichero();
+			cargarFichero(numeroFichero);
 		}
 	}
 	@Override
@@ -134,10 +264,10 @@ public class VentanaUsuario extends JFrame implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		VentanaUsuario ventanausuario = new VentanaUsuario();
 		//ventanausuario.pack();
 		ventanausuario.setVisible(true);
 	
-	}	
+	}*/	
 }
