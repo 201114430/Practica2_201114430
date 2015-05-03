@@ -22,13 +22,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import ClaseNoUsada.PruebaMenu;
-
 public class VentanaPrincipal extends JFrame implements MouseListener{
 	VentanaUsuario ventanausuario = new VentanaUsuario();
 	public javax.swing.JComboBox dificultad;
 	public javax.swing.JButton disco1,disco2,disco3,disco4,disco5,disco6,disco7,disco8,disco9,disco10,disco11,disco12,disco13,disco14,disco15,disco16,disco17,disco18,disco19,disco20,disco21,disco22,disco23,disco24,botonJugar,botonDemo,pausa,continuar;
-	public javax.swing.JLabel barraEstado,barraMovimiento,pasosResolucion,nombreJugador,cronometro,numeroTorre;
+	public javax.swing.JLabel barraEstado,barraMovimiento,pasosResolucion,nombreJugador,cronometro,infcronometro,numeroTorre;
 	public final String ruta = System.getProperties().getProperty("user.dir");
 	public int[] torre1 = {-1,1,2,3,4,5,6,7,8,0,0};
 	public int[] torre2 = {-1,0,0,0,0,0,0,0,0,0,0};
@@ -42,6 +40,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 	public int CONTADOR;
 	public int NIVEL = 8;
 	boolean cronoActivo;
+	boolean juegopausado;
 	public String tiempo;
 	public String nomJuga;
  	public VentanaPrincipal(){//constructor de la clase JFrame 		
@@ -52,9 +51,10 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		iniciaEtiqueta();
 		initDiscBoton(this.torre1,this.torre2,this.torre3);
 		iniTorre();
-		ventanausuario.setVisible(true);
 		initfondo();//fondo de la Ventana Principal si funciona
-		repaint();		
+		repaint();
+		JOptionPane.showMessageDialog(VentanaPrincipal.this, "Bienvenido a la red \n"+"La frontera Digital.","Torre Hanoi", JOptionPane.INFORMATION_MESSAGE);
+		ventanausuario.setVisible(true);
  	}
  	public void guardarDatos(String nombreJugador,int NIVEL,int CONTADOR,String tiempo){
  		EscribirFichero escribirfichero = new EscribirFichero();
@@ -111,7 +111,6 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		nombreJugador.setForeground( Color.cyan );
 		//nombreJugador.setText("nomJuga dentro la clase"+nomJuga);
 		System.out.println(nomJuga);
-//		nombreJugador.setText("Nombre del Jugador.");
 		add(nombreJugador);
 		////////////////////Cronometro/////////////////////////////
 		cronometro = new JLabel();
@@ -119,7 +118,14 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		cronometro.setFont(new java.awt.Font("Tr2n", 1, 35));
 		cronometro.setForeground( Color.white );
 		cronometro.setText("00:00");
-		add(cronometro);	
+		add(cronometro);
+		////////////////////informacion Cronometro/////////////////////////////
+		infcronometro = new JLabel();
+		infcronometro.setBounds(835, 545, 200, 25);
+		infcronometro.setFont(new java.awt.Font("Tr2n", 1, 20));
+		infcronometro.setForeground( Color.orange );
+		infcronometro.setText("min : seg");
+		add(infcronometro);	
 	}
 	public void barraMenu(){
 		JMenuBar barraMenu = new javax.swing.JMenuBar();
@@ -220,6 +226,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 					
 					@Override
 					public void actionPerformed(ActionEvent evento) {
+						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Bienvenido a la red \n"+"La frontera Digital.","Torre Hanoi", JOptionPane.INFORMATION_MESSAGE);
 						try {
 			    			  if (Desktop.isDesktopSupported()) {
 			    			  Desktop desktop = Desktop.getDesktop();
@@ -269,6 +276,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
         }
         add(dificultad);
 	}
+
 	public void initDiscBoton(int[] torreA,int[] torreB,int[] torreC){//Construye los botones para los Discos
 		setLayout(null);
 		Container container = getContentPane();
@@ -278,16 +286,16 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 
 		//Disco 1
         disco1=new JButton();
-        disco1.setBounds(87, 430, 206, 30);	
+        disco1.setBounds(87, 430, 206, 35);	
         container.add(disco1);
         disco1.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[1]))));
         disco1.setBorderPainted(false);
         disco1.setContentAreaFilled(false);
         disco1.addMouseListener(this);
-			
+
 		//Disco 2
         disco2=new JButton();
-		disco2.setBounds(90, 400, 200, 30);
+		disco2.setBounds(90, 395, 200, 35);
 		container.add(disco2);
         disco2.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[2]))));
         disco2.setBorderPainted(false);
@@ -296,7 +304,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		
 		//Disco 3
         disco3=new JButton();
-		disco3.setBounds(90, 370, 200, 30);
+		disco3.setBounds(90, 360, 200, 35);
 		container.add(disco3);
         disco3.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[3]))));
         disco3.setBorderPainted(false);
@@ -305,7 +313,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		
 		//Disco 4
         disco4=new JButton();
-		disco4.setBounds(90, 340, 200, 30);
+		disco4.setBounds(90, 325, 200, 35);
 		container.add(disco4);
         disco4.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[4]))));
         disco4.setBorderPainted(false);
@@ -315,7 +323,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 5
         disco5=new JButton();
 		container.add(disco5);
-		disco5.setBounds(90, 310, 200, 30);
+		disco5.setBounds(90, 290, 200, 35);
         disco5.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[5]))));
         disco5.setBorderPainted(false);
         disco5.setContentAreaFilled(false);
@@ -324,7 +332,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 6
         disco6=new JButton();
 		container.add(disco6);
-		disco6.setBounds(90, 280, 200, 30);
+		disco6.setBounds(90, 255, 200, 35);
         add(disco6);
         disco6.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[6]))));
         disco6.setBorderPainted(false);
@@ -334,7 +342,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 7
         disco7=new JButton();
 		container.add(disco7);
-		disco7.setBounds(90, 250, 200, 30);
+		disco7.setBounds(90, 220, 200, 35);
         add(disco7);
         disco7.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[7]))));
         disco7.setBorderPainted(false);
@@ -344,7 +352,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 8
         disco8=new JButton();
 		container.add(disco8);
-		disco8.setBounds(90, 220, 200, 30);
+		disco8.setBounds(90, 185, 200, 35);
         add(disco8);
         disco8.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre1[8]))));
         disco8.setBorderPainted(false);
@@ -355,7 +363,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 9
         disco9=new JButton();
 		container.add(disco9);
-		disco9.setBounds(357, 430, 206, 30);
+		disco9.setBounds(357, 430, 206, 35);
         add(disco9);
         disco9.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[1]))));
         disco9.setBorderPainted(false);
@@ -365,7 +373,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 10
         disco10=new JButton();
 		container.add(disco10);
-		disco10.setBounds(360, 400, 200, 30);
+		disco10.setBounds(360, 395, 200, 35);
         add(disco10);
         disco10.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[2]))));
         disco10.setBorderPainted(false);
@@ -375,7 +383,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 11
         disco11=new JButton();
 		container.add(disco11);
-		disco11.setBounds(360, 370, 200, 30);
+		disco11.setBounds(360, 360, 200, 35);
         add(disco11);
         disco11.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[3]))));
         disco11.setBorderPainted(false);
@@ -385,7 +393,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 12
         disco12=new JButton();
 		container.add(disco12);
-		disco12.setBounds(360, 340, 200, 30);
+		disco12.setBounds(360, 325, 200, 35);
         add(disco12);
         disco12.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[4]))));
         disco12.setBorderPainted(false);
@@ -395,7 +403,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 13
         disco13=new JButton();
 		container.add(disco13);
-		disco13.setBounds(360, 310, 200, 30);
+		disco13.setBounds(360, 290, 200, 35);
         add(disco13);
         disco13.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[5]))));
         disco13.setBorderPainted(false);
@@ -405,7 +413,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 14
         disco14=new JButton();
 		container.add(disco14);
-		disco14.setBounds(360, 280, 200, 30);
+		disco14.setBounds(360, 255, 200, 35);
         add(disco14);
         disco14.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[6]))));
         disco14.setBorderPainted(false);
@@ -415,7 +423,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 15
         disco15=new JButton();
 		container.add(disco15);
-		disco15.setBounds(360, 250, 200, 30);
+		disco15.setBounds(360, 220, 200, 35);
         add(disco15);
         disco15.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[7]))));
         disco15.setBorderPainted(false);
@@ -425,7 +433,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 16
         disco16=new JButton();
 		container.add(disco16);
-		disco16.setBounds(360, 220, 200, 30);
+		disco16.setBounds(360, 185, 200, 35);
         add(disco16);
         disco16.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre2[8]))));
         disco16.setBorderPainted(false);
@@ -436,7 +444,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 17
         disco17=new JButton();
 		container.add(disco17);
-		disco17.setBounds(637, 430, 206, 30);
+		disco17.setBounds(637, 430, 206, 35);
         add(disco17);
         disco17.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[1]))));
         disco17.setBorderPainted(false);
@@ -446,7 +454,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 18
         disco18=new JButton();
 		container.add(disco18);
-		disco18.setBounds(640, 400, 200, 30);
+		disco18.setBounds(640, 395, 200, 35);
         add(disco18);
         disco18.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[2]))));
         disco18.setBorderPainted(false);
@@ -456,7 +464,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 19
         disco19=new JButton();
 		container.add(disco19);
-		disco19.setBounds(640, 370, 200, 30);
+		disco19.setBounds(640, 360, 200, 35);
         add(disco19);
         disco19.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[3]))));
         disco19.setBorderPainted(false);
@@ -466,7 +474,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 20
         disco20=new JButton();
 		container.add(disco20);
-		disco20.setBounds(640, 340, 200, 30);
+		disco20.setBounds(640, 325, 200, 35);
         add(disco20);
         disco20.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[4]))));
         disco20.setBorderPainted(false);
@@ -476,7 +484,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 21
         disco21=new JButton();
 		container.add(disco21);
-		disco21.setBounds(640, 310, 200, 30);
+		disco21.setBounds(640, 290, 200, 35);
         add(disco21);
         disco21.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[5]))));
         disco21.setBorderPainted(false);
@@ -486,7 +494,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 22
 		disco22=new JButton();
 		container.add(disco22);
-		disco22.setBounds(640, 280, 200, 30);
+		disco22.setBounds(640, 255, 200, 35);
         add(disco22);
         disco22.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[6]))));
         disco22.setBorderPainted(false);
@@ -496,7 +504,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 23
         disco23=new JButton();
 		container.add(disco23);
-		disco23.setBounds(640, 250, 200, 30);
+		disco23.setBounds(640, 220, 200, 35);
         add(disco23);
         disco23.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[7]))));
         disco23.setBorderPainted(false);
@@ -506,7 +514,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		//Disco 24
         disco24=new JButton();
 		container.add(disco24);
-		disco24.setBounds(640, 220, 200, 30);
+		disco24.setBounds(640, 185, 200, 35);
         add(disco24);
         disco24.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(torre3[8]))));
         disco24.setBorderPainted(false);
@@ -518,14 +526,14 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		Container container = getContentPane();
 		container.setLayout(null);
 		//torre Izquierda
-		Torre torre1 = new Torre(70, 180, 240, 320);
+		Torre torre1 = new Torre(70, 130, 240, 370);
 		container.add(torre1);
 		torre1.addMouseListener(this);
 		//torre Media
-		Torre torre2 = new Torre(340, 180, 240, 320);
+		Torre torre2 = new Torre(340, 130, 240, 370);
 		container.add(torre2);
 		//torre Derecha
-		Torre torre3 = new Torre(620, 180, 240, 320);
+		Torre torre3 = new Torre(620, 130, 240, 370);
 		container.add(torre3);
 		torre3.addMouseListener(this);
 	}
@@ -562,13 +570,13 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			}
 			c=c+1;
 		}while(torre3[c]!=0);
-		copyDEM = a;
+		//copyDEM = a;
 		/*System.out.println("a "+a);
 		System.out.println("b "+b);
 		System.out.println("c "+c);
 		System.out.println("copyDEM "+copyDEM);
 		System.out.println("DEM "+DEM);*/
-		System.out.println(UET1+","+UET2+","+UET3);
+		//System.out.println(UET1+","+UET2+","+UET3);
 	
 		////////////////FINAL CODIGO CIMA////////
 	}
@@ -579,32 +587,56 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			if(torre2[3] == 8 || torre3[3] == 8){
 				modificaEtiqueta(9);
 				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+				this.juegopausado = false;
+				pausa.setEnabled(false);
 			}
 			break;
 		case 4:
 			if(torre2[4] == 8 || torre3[4] == 8){
 				modificaEtiqueta(9);
 				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+				this.juegopausado = false;
+				pausa.setEnabled(false);
 			}
 			break;
 		case 5:
 			if(torre2[5] == 8 || torre3[5] == 8){
-				modificaEtiqueta(9);
+				System.out.println("contenido "+tiempo);
+				if(tiempo=="Demo"){
+					modificaEtiqueta(11);
+					this.juegopausado = false;
+					pausa.setEnabled(false);
+					}
+				else{
+					modificaEtiqueta(9);
+					guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+					this.juegopausado = false;
+					pausa.setEnabled(false);
+				}
 			}
 			break;
 		case 6:
 			if(torre2[6] == 8 || torre3[6] == 8){
 				modificaEtiqueta(9);
+				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+				this.juegopausado = false;
+				pausa.setEnabled(false);
 			}
 			break;
 		case 7:
 			if(torre2[7] == 8 || torre3[7] == 8){
 				modificaEtiqueta(9);
+				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+				this.juegopausado = false;
+				pausa.setEnabled(false);
 			}
 			break;
 		case 8:
 			if(torre2[8] == 8 || torre3[8] == 8){
 				modificaEtiqueta(9);
+				guardarDatos(nomJuga,NIVEL,CONTADOR,tiempo);
+				this.juegopausado = false;
+				pausa.setEnabled(false);
 			}
 			break;
 		}
@@ -631,7 +663,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
         	UET2 = 0;
         	UET3 = 0;
         	NRAVD = 0;
-        	copyDEM = DEM;
+        	//copyDEM = DEM;
         	CONTADOR = 0;
         	barraMovimiento.setText(CONTADOR + " Movimientos");
         	pasosResolucion.setText("");
@@ -645,6 +677,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
         	System.out.println("nombre del jugador "+nomJuga);
         	nombreJugador.setText(nomJuga);
         	ventanausuario.setVisible(false);
+        	this.juegopausado = true;
 		}
 		/////// Boton Demo
 		if(e.getSource()==botonDemo){
@@ -655,6 +688,8 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			hilo1.resume();
 			continuar.setEnabled(false);
 			pausa.setEnabled(true);
+			this.juegopausado = true;
+			System.out.println(juegopausado);
 		}
 		///////Boton Pausa
 		if(e.getSource()==pausa){
@@ -662,128 +697,112 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			//pausa.setEnabled(true);
 			pausa.setEnabled(false);
 			continuar.setEnabled(true);
+			this.juegopausado = false;
+			System.out.println(juegopausado);
 		}
 		/////DISCO 1
-		if (e.getSource()==disco1) {
+		if (e.getSource()==disco1 && juegopausado) {
 			modificaDisco(1);
 			}
 		/////DISCO 2
-		if (e.getSource()==disco2) {
+		if (e.getSource()==disco2 && juegopausado) {
 			modificaDisco(2);
 		}
 		/////DISCO 3
-		if (e.getSource()==disco3) {
+		if (e.getSource()==disco3 && juegopausado) {
 			modificaDisco(3);
 		}
 		/////DISCO 4
-		if (e.getSource()==disco4) {
+		if (e.getSource()==disco4 && juegopausado) {
 			modificaDisco(4);
 		}
 		/////DISCO 5
-		if (e.getSource()==disco5) {
+		if (e.getSource()==disco5 && juegopausado) {
 			modificaDisco(5);
 		}
 		/////DISCO 6
-		if (e.getSource()==disco6) {
+		if (e.getSource()==disco6 && juegopausado) {
 			modificaDisco(6);
 		}
 		/////DISCO 7
-		if (e.getSource()==disco7) {
+		if (e.getSource()==disco7 && juegopausado) {
 			modificaDisco(7);
 		}
 		/////DISCO 8
-		if (e.getSource()==disco8) {
+		if (e.getSource()==disco8 && juegopausado) {
 			modificaDisco(8);
 		}
 		/////DISCO 9
-		if (e.getSource()==disco9) {
+		if (e.getSource()==disco9 && juegopausado) {
 			modificaDisco(9);
 		}
 		/////DISCO 10
-		if (e.getSource()==disco10) {
+		if (e.getSource()==disco10 && juegopausado) {
 			modificaDisco(10);
 		}
 		/////DISCO 11
-		if (e.getSource()==disco11) {
+		if (e.getSource()==disco11 && juegopausado) {
 			modificaDisco(11);
 		}
 		/////DISCO 12
-		if (e.getSource()==disco12) {
+		if (e.getSource()==disco12 && juegopausado) {
 			modificaDisco(12);
 		}
 		/////DISCO 13
-		if (e.getSource()==disco13) {
+		if (e.getSource()==disco13 && juegopausado) {
 			modificaDisco(13);
 		}
 		/////DISCO 14
-		if (e.getSource()==disco14) {
+		if (e.getSource()==disco14 && juegopausado) {
 			modificaDisco(14);
 		}
 		/////DISCO 15
-		if (e.getSource()==disco15) {
+		if (e.getSource()==disco15 && juegopausado) {
 			modificaDisco(15);
 		}
 		/////DISCO 16
-		if (e.getSource()==disco16) {
+		if (e.getSource()==disco16 && juegopausado) {
 			modificaDisco(16);
 		}
 		/////DISCO 17
-		if (e.getSource()==disco17) {
+		if (e.getSource()==disco17 && juegopausado) {
 			modificaDisco(17);
 		}
 		/////DISCO 18
-		if (e.getSource()==disco18) {
+		if (e.getSource()==disco18 && juegopausado) {
 			modificaDisco(18);
 		}
 		/////DISCO 19
-		if (e.getSource()==disco19) {
+		if (e.getSource()==disco19 && juegopausado) {
 			modificaDisco(19);
 		}
 		/////DISCO 20
-		if (e.getSource()==disco20) {
+		if (e.getSource()==disco20 && juegopausado) {
 			modificaDisco(20);
 		}		
 		/////DISCO 21
-		if (e.getSource()==disco21) {
+		if (e.getSource()==disco21 && juegopausado) {
 			modificaDisco(21);
 		}
 		/////DISCO 22
-		if (e.getSource()==disco22) {
+		if (e.getSource()==disco22 && juegopausado) {
 			modificaDisco(22);
 		}
 		/////DISCO 23
-		if (e.getSource()==disco23) {
+		if (e.getSource()==disco23 && juegopausado) {
 			modificaDisco(23);
 		}
 		/////DISCO 24
-		if (e.getSource()==disco24) {
+		if (e.getSource()==disco24 && juegopausado) {
 			modificaDisco(24);
 		}
 	}
-	/*private void imprimeMatriz() {
-		System.out.print("{");
-	    for(int j=0;j<=10;j++){
-	    	System.out.print(torre1[j]+",");
-	    }
-	    System.out.println("}");
-		System.out.print("{");
-	    for(int j=0;j<=10;j++){
-	    	System.out.print(torre2[j]+",");
-	    }
-	    System.out.println("}");
-		System.out.print("{");
-	    for(int j=0;j<=10;j++){
-	    	System.out.print(torre3[j]+",");
-	    }
-	    System.out.println("}");
-		
-	}*/
-	public int numeroDeMovimiento(int DEM){//contador de movimientos
-		this.DEM = DEM;
-			if(copyDEM!=DEM){
-				CONTADOR += 1;
-				System.out.println("CONTADOR "+ CONTADOR);
+	public int numeroDeMovimiento(int a){//contador de movimientos
+			if(copyDEM != a){
+				CONTADOR += 1;//CONTADOR + 1;
+				modificaEtiqueta(4);
 			}
+				
 		return 0;
 	}
 	public void modificaDisco(int a){
@@ -794,6 +813,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 1;
 				DEM = torre1[1];
 				disco1.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[1]=0;
@@ -803,6 +823,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[1]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(1);
 				break;
 			}
 			break;
@@ -812,6 +833,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 2;
 				DEM = torre1[2];
 				disco2.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[2]=0;
@@ -821,6 +843,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[2]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(2);
 				break;
 			}
 			break;
@@ -830,6 +853,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 3;
 				DEM = torre1[3];
 				disco3.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[3]=0;
@@ -839,6 +863,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[3]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(3);
 				break;
 			}
 			break;
@@ -848,6 +873,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 4;
 				DEM = torre1[4];
 				disco4.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[4]=0;
@@ -857,6 +883,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[4]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(4);
 				break;
 			}
 			break;
@@ -866,6 +893,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 5;
 				DEM = torre1[5];
 				disco5.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[5]=0;
@@ -875,6 +903,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[5]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(5);
 				break;
 			}
 			break;
@@ -884,6 +913,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 6;
 				DEM = torre1[6];
 				disco6.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[6]=0;
@@ -893,6 +923,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[6]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(6);
 				break;
 			}
 			break;
@@ -902,6 +933,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 7;
 				DEM = torre1[7];
 				disco7.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[7]=0;
@@ -911,6 +943,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[7]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(7);
 				break;
 			}
 			break;
@@ -920,6 +953,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 8;
 				DEM = torre1[8];
 				disco8.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre1[8]=0;
@@ -929,6 +963,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre1[8]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(8);
 				break;
 			}
 			break;
@@ -938,6 +973,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 9;
 				DEM = torre2[1];
 				disco9.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[1]=0;
@@ -947,6 +983,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[1]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(9);
 				break;
 			}
 			break;
@@ -956,6 +993,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 10;
 				DEM = torre2[2];
 				disco10.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[2]=0;
@@ -965,6 +1003,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[2]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(10);
 				break;
 			}
 			break;
@@ -974,6 +1013,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 11;
 				DEM = torre2[3];
 				disco11.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[3]=0;
@@ -983,6 +1023,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[3]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(11);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -993,6 +1034,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 12;
 				DEM = torre2[4];
 				disco12.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[4]=0;
@@ -1002,6 +1044,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[4]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(12);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1012,6 +1055,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 13;
 				DEM = torre2[5];
 				disco13.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[5]=0;
@@ -1021,6 +1065,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[5]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(13);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1031,6 +1076,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 14;
 				DEM = torre2[6];
 				disco14.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[6]=0;
@@ -1040,6 +1086,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[6]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(14);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1050,6 +1097,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 15;
 				DEM = torre2[7];
 				disco15.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[7]=0;
@@ -1059,6 +1107,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[7]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(15);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1069,6 +1118,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 16;
 				DEM = torre2[8];
 				disco16.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre2[8]=0;
@@ -1078,6 +1128,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre2[8]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(16);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1088,6 +1139,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 17;
 				DEM = torre3[1];
 				disco17.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[1]=0;
@@ -1097,6 +1149,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[1]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(17);
 				break;
 			}
 			break;
@@ -1106,6 +1159,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 18;
 				DEM = torre3[2];
 				disco18.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[2]=0;
@@ -1115,6 +1169,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[2]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(18);
 				break;
 			}
 			break;
@@ -1124,6 +1179,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 19;
 				DEM = torre3[3];
 				disco19.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[3]=0;
@@ -1133,7 +1189,9 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[3]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(19);
 				verificaGana(NIVEL);
+				this.copyDEM = 0;
 				break;
 			}
 			break;
@@ -1143,6 +1201,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 20;
 				DEM = torre3[4];
 				disco20.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[4]=0;
@@ -1152,6 +1211,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[4]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(20);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1162,6 +1222,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 21;
 				DEM = torre3[5];
 				disco21.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[5]=0;
@@ -1171,6 +1232,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[5]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(21);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1181,6 +1243,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 22;
 				DEM = torre3[6];
 				disco22.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[6]=0;
@@ -1190,6 +1253,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[6]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(22);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1200,6 +1264,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 23;
 				DEM = torre3[7];
 				disco23.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[7]=0;
@@ -1209,6 +1274,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[7]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(23);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1219,6 +1285,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			listaPeek();
 			switch(NRAVD){
 			case 1:
+				this.copyDEM = 24;
 				DEM = torre3[8];
 				disco24.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc(0))));
 				torre3[8]=0;
@@ -1228,6 +1295,7 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 				torre3[8]= DEM;
 				DEM = 0;
 				listaPeek();
+				numeroDeMovimiento(24);
 				verificaGana(NIVEL);
 				break;
 			}
@@ -1251,8 +1319,6 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 		else if(DEM!=0 && !tieneDisco(dA) && DEM>dAA){
 			//Pegar
 			if(dAA!=0){
-				numeroDeMovimiento(DEM);
-				System.out.println("valor DEM despues de copiar disco 8 "+DEM);
 				return 2;
 			}	
 		}
@@ -1283,16 +1349,22 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			break;
 		case 2:
 			barraEstado.setText("DISCO MOVIDO.");
-			barraMovimiento.setText(CONTADOR + " MOVIMIENTOS");
 			break;
 		case 3:
 			barraEstado.setText("YA HAY UN DISCO EN ESTA POSICION.");
+			break;
+		case 4:
+			barraMovimiento.setText(CONTADOR + " MOVIMIENTOS");
 			break;
 		case 9:
 			pararCronos();
 			JOptionPane.showMessageDialog(this, "Usted Gano. \n"+CONTADOR+" Movimientos realizados. \n"+"Tiempo trancurrido. "+tiempo,"Torre Hanoi", JOptionPane.INFORMATION_MESSAGE);
 			break;
 		case 10:
+			barraEstado.setText("");
+			break;
+		case 11:
+			JOptionPane.showMessageDialog(this, "Demostracion Finalizada \n"+CONTADOR+" Movimientos realizados.","Torre Hanoi", JOptionPane.INFORMATION_MESSAGE);
 			barraEstado.setText("");
 			break;
 		}
@@ -1371,10 +1443,14 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
 			return "/Imagen/0.png";
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {	
+	public void mouseClicked(MouseEvent e) {
+		
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		if (e.getSource() == torre3){
+			barraEstado.setText("Torre 1");
+		}
 		  if (e.getSource() == disco1){
 			  disco1.setIcon(new javax.swing.ImageIcon(getClass().getResource(imagenDisc1(torre1[1]))));
 			  }
@@ -1570,6 +1646,8 @@ public class VentanaPrincipal extends JFrame implements MouseListener{
     	copyDEM = DEM;
     	CONTADOR = 0;
     	barraMovimiento.setText(CONTADOR + " Movimientos");
+    	tiempo = "Demo";
+    	cronometro.setText("00:00");
 		///////////////////////
 		hilo = new Thread(correr);
 		hilo.start();

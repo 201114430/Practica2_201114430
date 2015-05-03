@@ -1,5 +1,4 @@
 package torreHanoi;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -10,45 +9,38 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+
 
 public class VentanaUsuario extends JFrame implements MouseListener {
-	
+
 	public javax.swing.JButton guardar,buscar,eliminar,records;
-	@SuppressWarnings("rawtypes")
 	public javax.swing.JComboBox selecDiscRecord;
 	public JTextField cajanombre;
 	public String nombre;
-	public String[] encabezado = {"Nombre","Discos","Movimientos","Tiempo"};
-	private String[][] datos = {{"Nombre","Discos","Movimientos","Tiempo"},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""},
-								{"","","",""}};
-	private JTable tabla;
+	public javax.swing.JTable tabla;
+	public String[] lista0 = {"Nombre", "Disco", "Movimientos", "Tiempo"};
+	public String[] lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10;
+	public String[][] dato = {lista0,lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10};
 
  	public VentanaUsuario() {
-		configuracionVentana();
+ 		llenaLista();
+ 		configuracionVentana();
 		iniciaComponente();
-		generaRecord();
 	}
 	public void configuracionVentana(){
 		setLayout(null);
 		//setVisible(false); //comentar cuando se integre con la ventanaprincipal
 		setSize(650, 400);
 		setTitle("Jugador");
-		setResizable(false);
-		//setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setResizable(true);
+		//setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //activa cuando se integre con la ventana principal
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// desactiva cuando se integre con la ventana principal
 		getContentPane().setLayout(null);
+		
+		
 	}
 	public void iniciaComponente(){
 		setLayout(null);
@@ -95,14 +87,25 @@ public class VentanaUsuario extends JFrame implements MouseListener {
 		setVisible(true);
 		
 	}
-	
-	public void generaRecord(){
-		tabla = new JTable(datos,encabezado);
-		tabla.setBounds(90,150,450,165);
-		add(tabla);// por aqui voy
+	public void llenaLista(){
+		/*String[] lista1 = null;
+		for(int i=0; i<4;i++){
+			lista1[i] = "asdf";
+			System.out.println("lista 1 "+ lista1[i]);
+		}*/
+		
+
+
 
 	}
+	public void generaRecord(String[] lista1,String[] lista2,String[] lista3,String[] lista4,String[] lista5,String[] lista6,String[] lista7,String[] lista8,String[] lista9,String[] lista10){
 	
+		String[][] dato = {lista0,lista1,lista2,lista3,lista4,lista5,lista6,lista7,lista8,lista9,lista10};
+		//////////////////crea JTable/////////////
+		tabla = new JTable(dato,lista0);
+		tabla.setBounds(90,150,450,180);
+		add(tabla);	
+	}
 	@Override
 	public void mousePressed(MouseEvent even) {
 		if (even.getSource()==guardar) {
@@ -131,10 +134,10 @@ public class VentanaUsuario extends JFrame implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
-	/*public static void main(String[] args){
+	public static void main(String[] args){
 		VentanaUsuario ventanausuario = new VentanaUsuario();
+		//ventanausuario.pack();
+		ventanausuario.setVisible(true);
 	
-	}*/
-
-	
+	}	
 }

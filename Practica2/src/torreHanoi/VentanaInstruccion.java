@@ -32,20 +32,19 @@ public class VentanaInstruccion extends JFrame {
 		instruccion.setContentAreaFilled(false);
 		instruccion.setBounds(0,130,680,540);
 	    setLayout(null);
-		/*Imagen torre*/
+		////////////*Imagen instrucciones*////////
 		String urlImagenTorre = "/Imagen/I1.png";
 	    ImageIcon icon = new ImageIcon(getClass().getResource(urlImagenTorre));
 	    Image img = icon.getImage();
 	    Image otraimg = img.getScaledInstance(680,535,java.awt.Image.SCALE_SMOOTH);
 	    ImageIcon otroicon = new ImageIcon(otraimg);
-	    instruccion.setIcon(otroicon);
+	    instruccion.setIcon(otroicon);	    
 	}
  	private void initfondo(){//fondo animado de la ventana
 		JLabel fondo = new JLabel();
-		//String nombre = "/home/juandelcid/Documentos/Dropbox/Proyecto de IPC1/Eclipse/InterfazGrafica/src/Imagen/TH4.gif";//ubuntu
-		String nombre = "C:\\Users\\Juan JP\\OneDrive\\Dropbox\\Proyecto de IPC1\\Eclipse\\InterfazGrafica\\bin\\Imagen\\TH4.gif";//ventana
-		fondo.setIcon(new javax.swing.ImageIcon(nombre));
+		String urlImagenTorre = "/Imagen/TH4.gif";
+		fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource(urlImagenTorre)));
 		getContentPane().add(fondo);
-		fondo.setBounds(183, 0, 320, 125);		
+		fondo.setBounds(183, 0, 320, 125);
 	}
 }

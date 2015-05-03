@@ -19,7 +19,7 @@ public class Fondo extends JButton{
 	    setContentAreaFilled(false);
 	    setBounds(x,y,ancho,alto);
 	    setLayout(null);
-		String urlImagenTorre = "/Imagen/f0.jpg";
+		String urlImagenTorre = "/Imagen/f4.png";
 	    ImageIcon icon = new ImageIcon(getClass().getResource(urlImagenTorre));
 	    Image img = icon.getImage();
 	    Image otraimg = img.getScaledInstance(1024,630,java.awt.Image.SCALE_SMOOTH);
